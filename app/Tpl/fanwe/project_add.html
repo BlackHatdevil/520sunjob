@@ -1,0 +1,268 @@
+{include file="inc/header.html"} 
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/keupload.php';
+</script>
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_publish.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_publish.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/upload_deal_image.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/upload_deal_image.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/ajaxupload.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagejs'][] = APP_ROOT_PATH."/system/region.js";
+$this->_var['dcpagejs'][] = APP_ROOT_PATH."/system/region.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/project.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/project.css";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<div class="blank"></div>
+
+<div class="shadow_bg">
+    <div class="wrap white_box">
+
+        <div class="page_title">
+            发起招聘
+        </div>
+        <div class="switch_nav">
+            <ul>
+                <li class="current"><a href="#">填写招聘相关</a></li>					
+            </ul>
+        </div>
+
+        <div class="f_l edit">
+            <form id="project_form" action="{url r="project#save"}" method="post">									
+                <div class="form_row">
+                    <label for="job" class="title w100">职位类别:</label>
+                    <select id="job" name="job">
+                        <option value="0" selected="selected">兼职</option>
+                        <option value="1">全职</option>
+                    </select>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">发起地点:</label>
+                    <div class="select_box">
+                        <select name="province">				
+                            <option value="" rel="0">请选择省份</option>			
+                            {foreach from=$region_lv2 item=region}
+                            <option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+                            {/foreach}
+                        </select>
+
+                        <select name="city">				
+                            <option value="" rel="0">请选择城市</option>
+                            {foreach from=$region_lv3 item=region}
+                            <option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <div class="blank15"></div>
+                    <label class="title w100">工作分类:</label>
+                    <div class="f_l cate_list">
+                        {foreach from=$cate_list item="cate_item" key=key}
+                        <span rel="{$cate_item.id}">{$cate_item.name}</span>
+                        {/foreach}
+                        <input type="hidden" name="cate_id" value="" />
+                    </div>
+                    <div class="blank15"></div>
+                </div>
+                <div class="form_row">
+                    <label class="title w100">招聘标题:</label>
+                    <input type="text" value="" class="textbox" name="name" />
+                    <div class="blank1"></div>
+                    <div class="form_tip">不超过25个字</div>
+                    <div class="blank15"></div>
+                </div>
+
+
+                <div class="form_row">
+                    <label class="title w100">发布公司:</label>
+                    <input type="text" value="" class="textbox" name="company" placeholder="填写发布招聘的公司"/>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">性别要求:</label>
+                    <input type="radio" value="2" name="sex" checked/>无
+                    <input type="radio" value="0" name="sex"/>女
+                    <input type="radio" value="1" name="sex"/>男
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">工作日期:</label>
+                    <input type="text" value="" class="textbox" name="workdays" placeholder="填写工作周期(x年x月x日-x年x月x日)"/>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">工作时间:</label>
+                    <input type="text" value="" class="textbox" name="worktime" placeholder="填写每次的工作时间"/>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">联系电话:</label>
+                    <input type="text" value="" class="textbox" name="contact" placeholder="填写联系电话"/>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">详细地址:</label>
+                    <input type="text" value="" class="textbox" name="location" placeholder="填写工作地点"/>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">是否面试:</label>
+                    <input type="radio" value="0" name="if_interview" checked/>否
+                    <input type="radio" value="1" name="if_interview"/>是
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="interview_form hdiv">
+                    <div class="form_row">
+                        <label class="title w100">面试官:</label>
+                        <input type="text" value="" class="textbox" name="interviewer" placeholder="请填写面试官的姓名"/>
+                        <div class="blank15"></div>
+                    </div>
+                    <div class="form_row">
+                        <label class="title w100">面试电话:</label>
+                        <input type="text" value="" class="textbox" name="interview_contact" placeholder="请填写联系人电话"/>
+                        <div class="blank15"></div>
+                    </div>
+                    <div class="form_row">
+                        <label class="title w100">面试时间:</label>
+                        <input type="text" value="" class="textbox" name="interview_time" placeholder="请填写面试时间"/>
+                        <div class="blank15"></div>
+                    </div>
+                    <div class="form_row">
+                        <label class="title w100">面试地点:</label>
+                        <input type="text" value="" class="textbox" name="interview_loc" placeholder="请填写面试地点"/>
+                        <div class="blank15"></div>
+                    </div>
+                </div>
+                <div class="blank"></div>
+
+                <div class="form_row">
+                    <label class="title w100">限制人数:</label>
+                    <input type="number" value="" class="textbox" name="limit_applicant" style="width:100px;" /><label class="tip_box">人</label>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">工作内容以及要求:</label>
+                    <div class="ke_form f_l">
+                        {function name="show_ke_form" text_name="descript" width="470" height="300" ctn=""}		
+                    </div>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">工资:</label>
+                    <input type="text" value="" class="textbox" name="limit_price" style="width:100px;" /> <label class="tip_box">元</label>
+                    &nbsp;／&nbsp;
+                    <select id="pay_way" name="pay_way">
+                        <option value="天" selected>天</option>
+                        <option value="月">月</option>
+                        <option value="年">年</option>
+                        <option value="小时">小时</option>
+                        <option value="次">次</option>
+                        <option value="份">份</option>
+                        <option value="课时">课时</option>
+                    </select>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">结算方式:</label>
+                    <select id="settlement" name="settlement">
+                        <option value="现结" selected>现结</option>
+                        <option value="日结">日结</option>
+                        <option value="周结">周结</option>
+                        <option value="月结">月结</option>
+                        <option value="年底结算">年底结算</option>
+                        <option value="完工结算">完工结算</option>
+                    </select>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="form_row">
+                    <label class="title w100">招聘天数:</label>
+                    <input type="text" value="" class="textbox" name="deal_days" style="width:100px;" /> <label class="tip_box">天</label>
+                    <div class="blank15"></div>
+                </div>
+
+                <div class="submit_btn_row">
+                    <input type="hidden" name="image" value="{$deal_image.url}" />
+                    <input type="hidden" name="savenext" value="0" />
+                    <div class="ui-button" rel="" id="savenow">
+                        <div>
+                            <span>发布</span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" value="1" name="ajax" />
+                    <input type="hidden" name="id" value="0" />
+                    <div class="blank15"></div>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="f_r preview">
+            <h2>工作详情预览</h2>
+            <div class="blank"></div>
+            <div class="deal_item_box">
+                <div class="deal_content_box">
+                    <div class="blank"></div>
+                    <a href="#" class="deal_title" id="deal_title">招聘标题</a><h3 class="f_l" id="div_cate"></h3>
+                    <div class="blank"></div>
+                    <span id="province">省份</span>&nbsp;&nbsp;<span id="city">城市</span>
+                    <div class="blank"></div>
+                    <div class="f_l">性别要求：</div><p class="interview_box f_l tc" id="p_sex">性别</p>
+                    <div class="blank"></div>
+                    <div class="f_l">发布公司：</div><p class="interview_box f_l tc" id="p_company">公司名</p>
+                    <div class="blank"></div>
+                    <div class="about_interview hdiv">
+                        <h2 class="deal_title">面试相关</h2>
+                        <div class="blank"></div>
+                        <div class="f_l">面试官：</div><p class="interview_box f_l tc" id="p_interviewer">姓名</p>
+                        <div class="blank"></div>
+                        <div class="f_l">面试电话：</div><p class="interview_box f_l tc" id="p_interview_contact">联系方式</p>
+                        <div class="blank"></div>
+                        <div class="f_l">面试地点：</div><p class="interview_box f_l tc" id="p_interview_loc">详细地址</p>
+                        <div class="blank"></div>
+                        <div class="f_l">面试时间：</div><p class="interview_box f_l tc" id="p_interview_time">具体时间</p>
+                    </div>
+                    <div class="blank"></div>
+                    <div class="blank"></div>
+                </div>
+                <div class="deal_content_box">
+                    <div class="div3"><span class="num"><font id="deal_days">0</font>天</span><span class="til">招聘天数</span></div>
+                    <div class="div3"><span class="num">0&nbsp;/&nbsp; <font id="limit_applicant">0</font></span><span class="til">限制人数</span></div>
+                    <div class="div3"><span class="num" ><font id="price">0</font>元&nbsp;/&nbsp;<font id="pay_way_span">单位</font></span><span class="til">工资</span></div>
+                    <div class="blank1"></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="blank"></div>
+
+
+    </div>
+</div>
+
+<div class="blank"></div>
+{include file="inc/footer.html"} 
+
+

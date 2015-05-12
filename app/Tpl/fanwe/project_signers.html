@@ -1,0 +1,121 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/sign_list.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/sign_list.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="blank"></div>
+
+<div class="shadow_bg">
+    <div class="wrap white_box">
+        <div class="page_title">
+            {$deal.name}
+            {if $deal.is_success eq 1 or $deal.end_time < $now}
+            <font class="red">(已结束)</font>
+            {/if}
+            <a href="{url r="account#project" p="id=$user_info.id"}" class="back"> << 返回招聘列表</a>
+        </div>
+
+        <div class="full">
+            {if $sign_list}
+            <table class="data-table">
+                <tr>
+                    <th>求职者</th>
+                    <th width="50">状态</th>
+                    <th width="200">操作</th>
+                </tr>
+                {foreach from=$sign_list item=sign_item}
+                <tr>
+                    <td class="deal_name">
+                        <div>
+                            <div>
+                                <a href="{url r="deal#show" p="id=$sign_item.user_id"}" target="_blank" title="{$sign_item.user_name}">{function name="msubstr" v=$sign_item.user_name b=0 e=25}
+                                </a>
+                            </div>
+                            <div>申请时间：{$sign_item.sign_time}</div>
+                            <div>同意时间：{if $sign_item.agree_time eq 0}<font color="orange">未同意</font>
+                                {else}{$sign_item.agree_time}
+                                {/if}</div>
+                        </div>	
+                    </td>
+                    <td>
+                        {if $sign_item.sign_status eq 0}
+                        <div class="orange">未同意</div>
+                        {else}
+                        {if $sign_item.sign_status eq 1}
+                        <div class="green">已同意</div>
+                        {else}
+                        {if $sign_item.sign_status eq 2}
+                        <div class="green">已录用</div>
+                        {/if}
+                        {/if}
+                        {/if}
+                    </td>
+
+                    <td>
+                        {if $deal.is_effect eq 0}
+                        <!--未审核-->
+                        招聘审核中：无法操作
+                        {else}
+                        {if $deal.is_success eq 1}
+                        <!--已结束-->
+                        <a href="{url r="home#user_resume" p="id=$sign_item.user_id"}">查看TA的简历</a>
+                        <div class="blank"></div>
+                        <a href="#">解雇</a>
+                        {if $sign_item.sign_status eq 1}
+                        <div class="blank"></div>
+                        <a class="employ" href="{url r="project#employ" p="id=$sign_item.id"}">确认录用</a>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <a class="employ" href="{url r="project#unemploy" p="id=$sign_item.id"}">不录用</a>
+                        {/if}
+                        {else}
+                        <!--进行中-->
+                        {if $deal.end_time > $now}
+                        <a href="#">查看TA的简历</a>
+                        <div class="blank"></div>
+                        {if $sign_item.sign_status eq 1}
+                        <a class="toggle_agree" href="{url r="project#toggle_agree" p="id=$sign_item.id"}">不同意</a>
+                        {else}
+                        <a class="toggle_agree" href="{url r="project#toggle_agree" p="id=$sign_item.id"}">同意</a>
+                        {/if}
+                        {else}
+                        <!--已到期-->
+                        <a href="#">查看TA的简历</a>
+                        <div class="blank"></div>
+                        <a href="#">解雇</a>
+                        {if $sign_item.sign_status eq 1}
+                        <div class="blank"></div>
+                        <a class="employ" href="{url r="project#employ" p="id=$sign_item.id"}">确认录用</a>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <a class="employ" href="{url r="project#unemploy" p="id=$sign_item.id"}">不录用</a>
+                        {/if}
+                        {/if}
+                        {/if}
+                        {/if}
+                    </td>
+                </tr>
+                {/foreach}
+            </table>
+
+            {else}
+            <div class="empty_tip">
+                尚没有报名参加这份工作！ <a href="{url r="project#signers"}" class="linkgreen">点击邀请会员报名</a>
+            </div>
+            {/if}
+
+
+        </div>
+        <div class="blank"></div>
+        <div class="pages">{$pages}</div>
+        <div class="blank"></div>
+
+    </div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

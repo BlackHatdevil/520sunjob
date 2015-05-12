@@ -1,0 +1,55 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/index.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+{include file="inc/index_images.html"}
+<div class="blank"></div>
+
+<div class="wrap">
+    <div class="f_r">
+        <form action="{url r="deals"}" method="post" id="header_search_form">
+            <div class="header_seach tc">	
+                <input type="button" value="搜索" class="seach_submit" id="header_submit" />
+                <input type="text" id="header_keyword" name="k" value="{if $p_k neq ''}{$p_k}{else}搜索你想要的...{/if}" class="seach_text">	
+                <input type="hidden" name="redirect" value="1" />				
+            </div>
+        </form>	
+    </div>
+
+    <div class="blank"></div>
+    <div class="blank"></div>
+    <div class="blank"></div>
+    <div class="blank"></div>
+    <h2 class="index_titles">
+        <a target="_blank" href="{url r="deals#show"}" class="titles_name">推荐兼职</a>
+        <a target="_blank" href="{url r="deals#show"}" class="more f_r">
+            <img src="{$TMPL}/images/zxzx1.jpg" alt="兼职">
+        </a>
+    </h2>
+    <div id="pin_box">
+        <div class="tc">
+            <ul class="tab-nav tc">
+                {foreach from=$cate_list item=cate_item}
+                <li><a href="{url r="deals" p="id=$cate_item.id"}" title="{$cate_item.name}">{$cate_item.name}</a></li>
+                {/foreach}
+            </ul>
+        </div>
+        <div class="blank"></div>
+        {include file="inc/deal_list.html"}
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+    </div>	
+    <div class="blank"></div>
+    <div id="pin_loading" rel="{url r="ajax#index" p="p=$current_page"}">正在努力加载</div>	
+
+</div>
+{include file="inc/footer.html"} 

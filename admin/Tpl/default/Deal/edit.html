@@ -1,0 +1,236 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__ROOT__/system/region.js"></script>	
+<load href='__TMPL__Common/js/deal_edit.js' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+    <div class="main_title">{%EDIT} <a href="{:u("Deal/online_index")}" class="back_list">{%BACK_LIST}</a></div>
+    <div class="blank5"></div>
+    <form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+        <table class="form conf_tab" cellpadding=0 cellspacing=0 >
+            <tr>
+                <td colspan=2 class="topTd"></td>
+            </tr>
+            <tr>
+                <td class="item_title">名称:</td>
+                <td class="item_input"><input type="text" class="textbox require" value="{$vo.name}" name="name" /></td>
+            </tr>
+            <tr>
+                <td class="item_title">职位类别:</td>
+                <td class="item_input">
+                    <select name="job">
+                        <option value="1" <if condition="$vo['job'] eq 1">selected="selected"</if> >全职</option>
+                        <option value="0" <if condition="$vo['job'] eq 0">selected="selected"</if> >兼职</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="item_title">发起人ID:</td>
+                <td class="item_input"><input type="text" class="textbox" name="user_id" value="{$vo.user_id}" style="width:30px;" /> <span class='tip_span'>不填写表示管理员发起</span></td>
+            </tr>
+            <tr>
+                <td class="item_title">参考上线天数:</td>
+                <td class="item_input"><input type="text" class="textbox" name="deal_days" value="{$vo.deal_days}" /></td>
+            </tr>
+            <tr>
+                <td class="item_title">开始时间:</td>
+                <td class="item_input">
+                    <input type="text" class="textbox require" name="begin_time" id="begin_time" value="{$vo.begin_time}" onfocus="this.blur(); return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />
+                    <input type="button" class="button" id="btn_begin_time" value="{%SELECT_TIME}" onclick="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />	
+                    <input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#begin_time').val('');" />	
+
+                </td>
+            </tr>
+            <tr>
+                <td class="item_title">结束时间:</td>
+                <td class="item_input">
+                    <input type="text" class="textbox require" name="end_time" id="end_time" value="{$vo.end_time}" onfocus="this.blur(); return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />
+                    <input type="button" class="button" id="btn_end_time" value="{%SELECT_TIME}" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />	
+                    <input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#end_time').val('');" />
+
+                </td>
+            </tr>
+
+            <tr>
+                <td class="item_title">上架:</td>
+                <td class="item_input">
+                    <lable>{%IS_EFFECT_1}<input type="radio" name="is_effect" value="1" <if condition="$vo['is_effect'] eq 1">checked="checked"</if> /></lable>
+                    <lable>{%IS_EFFECT_0}<input type="radio" name="is_effect" value="0" <if condition="$vo['is_effect'] eq 0">checked="checked"</if> /></lable>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="item_title">工资:</td>
+                <td class="item_input"><input type="text" class="textbox" name="limit_price"  value="{$vo.limit_price}"/>
+                    <select name="pay_way">
+                        <option value="天"<if condition="$vo['pay_way'] eq '天'">selected="selected"</if> >天</option>
+                        <option value="月"<if condition="$vo['pay_way'] eq '月'">selected="selected"</if> >月</option>
+                        <option value="年"<if condition="$vo['pay_way'] eq '年'">selected="selected"</if> >年</option>
+                        <option value="小时"<if condition="$vo['pay_way'] eq '小时'">selected="selected"</if> >小时</option>
+                        <option value="次"<if condition="$vo['pay_way'] eq '次'">selected="selected"</if> >次</option>
+                        <option value="份"<if condition="$vo['pay_way'] eq '份'">selected="selected"</if> >份</option>
+                        <option value="课时"<if condition="$vo['pay_way'] eq '课时'">selected="selected"</if> >课时</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="item_title">结算方式:</td>
+                <td>
+                    <select name="settlement">
+                        <option value="现结"<if condition="$vo['settlement'] eq '现结'">selected="selected"</if> >现结</option>
+                        <option value="日结"<if condition="$vo['settlement'] eq '日结'">selected="selected"</if> >日结</option>
+                        <option value="周结"<if condition="$vo['settlement'] eq '周结'">selected="selected"</if> >周结</option>
+                        <option value="月结"<if condition="$vo['settlement'] eq '月结'">selected="selected"</if> >月结</option>
+                        <option value="年底结算"<if condition="$vo['settlement'] eq '年底结算'">selected="selected"</if> >年底结算</option>
+                        <option value="完工结算"<if condition="$vo['settlement'] eq '完工结算'">selected="selected"</if> >完工结算</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="item_title">工作内容以及要求:</td>
+                <td class="item_input">
+                    <html:editor id="description" name="description" type="KINDEDITOR" content="{$vo.description}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">标签:</td>
+                    <td class="item_input"><input type="text" class="textbox" name="tags" style="width:500px;" value="{$vo.tags}" /> <span class='tip_span'>用空格分隔</span></td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">发布公司:</td>
+                    <td class="item_input"><input value="{$vo.company}" type="text" class="textbox require" name="company" /></td>
+                </tr>
+                <tr>
+                    <td class="item_title">工作周期:</td>
+                    <td class="item_input"><input value="{$vo.workdays}" type="text" class="textbox require" name="company" /></td>
+                </tr>
+                <tr>
+                    <td class="item_title">工作时间:</td>
+                    <td class="item_input"><input value="{$vo.worktime}" type="text" class="textbox require" name="company" /></td>
+                </tr>
+                <tr>
+                    <td class="item_title">联系电话:</td>
+                    <td class="item_input"><input value="{$vo.contact}" type="text" class="textbox require" name="company" /></td>
+                </tr>
+                <tr>
+                    <td class="item_title">工作地点:</td>
+                    <td class="item_input"><input value="{$vo.location}" type="text" class="textbox require" name="company" /></td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">是否面试:</td>
+                    <td class="item_input">
+                        <input type="radio" class="textbox" value="1" name="if_interview" <if condition="$vo['if_interview'] eq 1">checked</if> />是
+                        <input type="radio" class="textbox" value="0" name="if_interview" <if condition="$vo['if_interview'] eq 0">checked</if> />否
+                        （不面试下面四格不填写！）
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">面试官:</td>
+                    <td class="item_input"><input value="{$vo.interviewer}" type="text" class="textbox" name="interviewer" /></td>
+                </tr>
+                <tr>
+                    <td class="item_title">面试电话:</td>
+                    <td class="item_input"><input value="{$vo.interview_contact}" type="text" class="textbox" name="interview_contact" /></td>
+                </tr>
+                <tr>
+                    <td class="item_title">面试时间:</td>
+                    <td class="item_input"><input value="{$vo.interview_time}" type="text" class="textbox" name="interview_time" /></td>
+                </tr>
+                <tr>
+                    <td class="item_title">面试地点:</td>
+                    <td class="item_input"><input value="{$vo.interview_loc}" type="text" class="textbox" name="interview_loc" /></td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">限制人数:</td>
+                    <td class="item_input"><input type="number" value="{$vo.limit_applicant}"class="textbox require" name="limit_applicant" /></td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">分类:</td>
+                    <td class="item_input">
+                        <select name="cate_id" class="require">
+                            <option value="0">请选择</option>
+                            <foreach name="cate_list" item="cate_item">
+                            <option value="{$cate_item.id}" <if condition="$vo['cate_id'] eq $cate_item['id']">selected="selected"</if> >{$cate_item.name}</option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">所属地区:</td>
+                    <td class="item_input">
+                        <select name="province">				
+                            <option value="" rel="0">请选择省份</option>
+                            <foreach name="region_lv2" item="region">
+                            <option value="{$region.name}" rel="{$region.id}" <if condition="$region['selected']">selected="selected"</if>>{$region.name}</option>
+                            </foreach>
+                        </select>
+
+                        <select name="city">				
+                            <option value="" rel="0">请选择城市</option>
+                            <foreach name="region_lv3" item="region">
+                            <option value="{$region.name}" rel="{$region.id}" <if condition="$region['selected']">selected="selected"</if>>{$region.name}</option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">排序:</td>
+                    <td class="item_input"><input type="text" class="textbox" name="sort" value="{$vo.sort}" /></td>
+                </tr>
+
+                <tr>
+                    <td class="item_title">常见问题: [<a href="javascript:void(0);" onclick="add_faq();">增加</a>]</td>
+                    <td class="item_input" id="faq">
+                        <foreach name="faq_list" item="faq_item">
+                        <div style="padding:3px;">
+                            问题 <input type="text" class="textbox" name="question[]" value="{$faq_item.question}" />
+                            答案 <input type="text" class="textbox" name="answer[]" value="{$faq_item.answer}" />
+                            <a href="javascript:void(0);" onclick="del_faq(this);">删除</a>
+                        </div>
+
+                        </foreach>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan=2 class="bottomTd"></td>
+                </tr>
+            </table>
+
+            <div class="blank5"></div>
+            <table class="form" cellpadding=0 cellspacing=0>
+                <tr>
+                    <td colspan=2 class="topTd"></td>
+                </tr>
+                <tr>
+                    <td class="item_title"></td>
+                    <td class="item_input">
+                        <!--隐藏元素-->
+                        <input type="hidden" name="{:conf("VAR_MODULE")}" value="Deal" />
+                        <input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+                        <input type="hidden" name="id" value="{$vo.id}" />
+                        <!--隐藏元素-->
+                        <input type="submit" class="button" value="{%EDIT}" />
+                        <input type="reset" class="button" value="{%RESET}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=2 class="bottomTd"></td>
+                </tr>
+            </table> 		 
+        </form>
+    </div>
+    <include file="Public:footer" />

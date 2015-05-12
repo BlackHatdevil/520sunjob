@@ -1,0 +1,9 @@
+<div id="index_images" class="index_images">		
+    <div class="roll_box">
+        {foreach from=$image_list item=image_item}
+        <a href="{$image_item.url}" title="{$image_item.title}">
+            <img src="{function name="get_spec_image" v=$image_item.image w=1280 h=300 g=1}"  alt="{$image_item.title}" />
+        </a>
+        {/foreach}
+    </div>			
+</div>

@@ -1,0 +1,3 @@
+<?php
+//000000000060a:2:{i:0;a:8:{s:2:"id";s:2:"13";s:4:"name";s:21:"新浪api登录接口";s:6:"config";s:73:"a:3:{s:7:"app_key";s:0:"";s:10:"app_secret";s:0:"";s:7:"app_url";s:0:"";}";s:10:"class_name";s:4:"Sina";s:4:"icon";s:50:"./public/attachment/201210/13/17/50792e5bbc901.gif";s:5:"bicon";s:50:"./public/attachment/201210/13/16/5079277a72c9d.gif";s:8:"is_weibo";s:1:"1";s:8:"dispname";s:12:"新浪微博";}i:1;a:8:{s:2:"id";s:2:"14";s:4:"name";s:24:"腾讯微博登录插件";s:6:"config";s:73:"a:3:{s:7:"app_key";s:0:"";s:10:"app_secret";s:0:"";s:7:"app_url";s:0:"";}";s:10:"class_name";s:7:"Tencent";s:4:"icon";s:50:"./public/attachment/201211/06/11/509882825c183.png";s:5:"bicon";s:50:"./public/attachment/201211/06/11/50988287b1890.png";s:8:"is_weibo";s:1:"1";s:8:"dispname";s:12:"腾讯微博";}}
+?>

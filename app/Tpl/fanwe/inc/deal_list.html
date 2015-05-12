@@ -1,0 +1,32 @@
+{foreach from=$deal_list item=deal_item key=key}
+<div class="deal_item_box">
+    <div class="deal_content_box">
+        <a href="{url r="deal#show" p="id=$deal_item.id"}" title="{$deal_item.name}" class="deal_title">{function name="msubstr" v=$deal_item.name b=0 e=25}</a>
+        <div class="blank"></div>
+        <ul class="k_l">
+            <li>
+            {if $deal_item.user_name eq ''}{else}
+            <a href="{url r="home" p="id=$deal_item.user_id"}">{$deal_item.user_name}</a>&nbsp;&nbsp;
+            {/if}
+            {if $deal_item.province neq '' or $deal_item.city neq ''}
+            (
+            {if $deal_item.province neq ''}
+            <span><a href="{url r="deals" p="loc=$deal_item.province"}" title="{$deal_item.province}">{$deal_item.province}</a></span>
+            {/if}
+            {if $deal_item.city neq ''}
+            <span><a href="{url r="deals" p="loc=$deal_item.city"}" title="{$deal_item.city}">{$deal_item.city}</a></span>
+            {/if}
+            )
+            {/if}
+            </li>
+            <li>发布时间：{$deal_item.create_time}</li>
+            <li>薪资：{$deal_item.limit_price}元&nbsp;/&nbsp;{$deal_item.pay_way}</li>
+            <li class="short">面试：{if $deal_item.if_interview eq 1}需要{else}不需要{/if}</li>
+            <li class="short">性别：{$deal_item.sex}</li>
+            <li class="short">名额：{$deal_item.sign_count}&nbsp;/&nbsp;{$deal_item.limit_applicant}</li>
+            <li class="short">浏览：{$deal_item.view_count}</li>
+        </ul>
+        <div class="blank"></div>
+    </div>
+</div>
+{/foreach}

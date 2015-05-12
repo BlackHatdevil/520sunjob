@@ -1,0 +1,119 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="blank"></div>
+
+<div class="shadow_bg">
+    <div class="wrap white_box">
+        <div class="page_title">
+            我发布的招聘
+        </div>
+        <div class="switch_nav">
+            <ul>
+                <li class="current"><a href="{url r="account#project"}">我的招聘</a></li>
+                <li><a href="{url r="account#project"}">我的员工</a></li>
+                <!--
+                <li><a href="{url r="account#index"}">我的申请</a></li>
+                <li><a href="{url r="account#focus"}">我关注的招聘</a></li>
+                <li><a href="{url r="account#credit"}">收支明细</a></li>
+                -->
+            </ul>
+        </div>
+
+        <!--
+        <div class="blank"></div>		
+        {include file="inc/money_box.html"} 		
+        -->
+
+        <div class="full">
+            {if $deal_list}
+            <table class="data-table">
+                <tr>
+                    <th>项目名称</th>
+                    <th width="50">状态</th>
+                    <th width="200">操作</th>
+                </tr>
+                {foreach from=$deal_list item=deal_item}
+                <tr>
+                    <td class="deal_name">
+                        <div>
+                            <a class="deal_title" href="{url r="deal#show" p="id=$deal_item.id"}" target="_blank" title="{$deal_item.name}">{function name="msubstr" v=$deal_item.name b=0 e=25}
+                            </a>
+                            {if $deal_item.job eq 0}
+                            <span class="span_green">兼职</span>
+                            {else}
+                            <span class="span_orange">全职</span>
+                            {/if}
+                        </div>	
+                        <div class="blank"></div>
+                        <div class="info">
+                            <div><a href="{url r="project#signers" p="id=$deal_item.id"}">已报名：{$deal_item.sign_count}</a></div>
+                            <div>保证工资：{$deal_item.limit_price}元/{$deal_item.pay_way}</div>
+                            <div>发布时间：{$deal_item.create_time}</div>
+                        </div>
+                    </td>
+                    <td>
+                        {if $deal_item.is_effect eq 0}
+                        <div class="red">审核中</div>
+                        {else}
+                        {if $deal_item.is_success eq 1}
+                        <div class="green">已结束</div>
+                        {else}
+                        {if $deal_item.end_time > $now}
+                        <div class="orange">招聘中</div>
+                        {else}
+                        <div class="green">已结束</div>
+                        {/if}
+                        {/if}
+                        {/if}
+                    </td>
+
+                    <td>
+                        {if $deal_item.is_effect eq 0}
+                        <!--未审核-->
+                        <a href="{url r="project#edit" p="id=$deal_item.id"}">编辑招聘</a>
+                        <a href="{url r="project#del" p="id=$deal_item.id"}" class="del_deal">删除</a>
+                        {else}
+                        {if $deal_item.is_success eq 1}
+                        <!--结束-->
+                        <a href="{url r="project#signers" p="id=$deal_item.id"}">查看求职者</a>
+                        {else}
+                        {if $deal_item.end_time > $now}
+                        <!--进行中-->
+                        <a href="{url r="project#signers" p="id=$deal_item.id"}">查看求职者</a>
+                        <div class="blank"></div>
+                        <a href="{url r="project#success_deal" p="id=$deal_item.id"}" class="success_deal">标记结束(手动停止招聘)</a>
+                        <div class="blank"></div>
+                        {else}
+                        <!--结束-->
+                        <a href="{url r="project#signers" p="id=$deal_item.id"}">查看求职者</a>
+                        {/if}
+                        {/if}
+                        {/if}
+                    </td>
+
+                </tr>
+                {/foreach}
+            </table>
+
+            {else}
+            <div class="empty_tip">
+                从过创发布过任何招聘 <a href="{url r="project#add"}" class="linkgreen">立即发布一个工作</a>
+            </div>
+            {/if}
+
+
+        </div>
+        <div class="blank"></div>
+        <div class="pages">{$pages}</div>
+        <div class="blank"></div>
+
+    </div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 
